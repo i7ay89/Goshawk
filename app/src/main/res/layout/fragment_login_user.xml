@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.tomer.goshawk.LoginUserFragment"
+    android:id="@+id/LoginFragmentID">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/FrameLoginID"
+        android:background="#55000000">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            >
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                ></FrameLayout>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/border">
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/EditUsernameTextID"
+                        android:textColorHint="#ff222222"
+                        android:hint="User Name"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/EditPassTextID"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/EditUsernameTextID"
+                        android:layout_alignRight="@+id/EditUsernameTextID"
+                        android:layout_alignEnd="@+id/EditUsernameTextID"
+                        android:textColorHint="#ff222222"
+                        android:hint="Password" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/EditPassTextID"
+                        android:text="@string/Login"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/LoginButtonID"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</FrameLayout>
