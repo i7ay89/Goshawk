@@ -20,9 +20,12 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -36,8 +39,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     Boolean isNotificationCheced;
     Boolean isSnapshotCheced;
+    String serverIP = "";
 
-    TextView t;
+    EditText serverIPEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +52,23 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.settingFile), Context.MODE_PRIVATE);
         CheckBox notificationSwitch = (CheckBox)findViewById(R.id.checkNotificationID);
         CheckBox snapshotSwitch = (CheckBox)findViewById(R.id.checkSnapshotID);
-        t = (TextView)findViewById(R.id.testTextID);
+        serverIPEditText = (EditText) findViewById(R.id.serverIPID);
+        //t = (TextView)findViewById(R.id.testTextID);
 
 
-        isNotificationCheced = sharedPref.getBoolean("notificationSwitch", true);
+        isNotificationCheced = sharedPref.getBoolean("notificationSwitch", false);
         isSnapshotCheced = sharedPref.getBoolean("snapshotSwitch", true);
+        serverIP = sharedPref.getString("serverIP", getString(R.string.DefaultServerIP));
 
         notificationSwitch.setChecked(isNotificationCheced);
         snapshotSwitch.setChecked(isSnapshotCheced);
+        serverIPEditText.setText(serverIP);
+
 
         snapshotSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(isChecked) {
+                if (isChecked) {
                     //do stuff when Switch is ON
                     isSnapshotCheced = isChecked;
                 } else {
@@ -97,6 +105,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onStop(){
         super.onStop();
 
+        serverIP = serverIPEditText.getText().toString();
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
         SharedPreferences settings = getSharedPreferences(getString(R.string.settingFile), Context.MODE_PRIVATE);
@@ -104,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.clear();
         editor.putBoolean("notificationSwitch", isNotificationCheced);
         editor.putBoolean("snapshotSwitch", isSnapshotCheced);
-
+        editor.putString("serverIP", serverIP);
         // Commit the edits!
         editor.commit();
     }

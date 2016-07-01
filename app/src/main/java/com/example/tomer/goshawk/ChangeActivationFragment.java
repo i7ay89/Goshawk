@@ -29,13 +29,15 @@ public class ChangeActivationFragment extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_change_activation, container, false);
         // Inflate the layout for this fragment
         FrameLayout layout = (FrameLayout) view.findViewById(R.id.fragmentChangeActivationID);
-
+        //   HttpGoshawkClient client = new HttpGoshawkClient((Connection)getActivity());
+        //   client.Arm();
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,17 +48,18 @@ public class ChangeActivationFragment extends Fragment {
                 new Runnable() {
                     public void run() {
                         try { //server connection
-                            Thread.sleep(3000);
+                            while (MainScreenActivity.continueWait) {
+                                Thread.sleep(3000);
+                            }
                             FragmentManager fm = getFragmentManager();
                             FragmentTransaction ft = fm.beginTransaction();
                             fm.popBackStack();
                             ft.commit();
-                            MainScreenActivity.isActivate = !MainScreenActivity.isActivate;
-                            MainScreenActivity mainAct = (MainScreenActivity)getActivity();
+                            // MainScreenActivity.protection = !MainScreenActivity.protection;
+                            MainScreenActivity mainAct = (MainScreenActivity) getActivity();
                             mainAct.setParam();
 
-                        }
-                        catch (InterruptedException e) {
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }

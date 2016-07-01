@@ -1,0 +1,40 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc000000"
+    tools:context="com.example.tomer.goshawk.Snapshot_Fragment">
+
+    <Button
+        android:id="@+id/next_button_ID"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:text="Next"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/back_button_ID"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:text="Back"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/event_title_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:text="Event number: 1"
+        android:textColor="#ffffff"
+        android:textSize="25dp" />
+
+    <ImageView
+        android:id="@+id/snapshot_image_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+</FrameLayout>

@@ -1,12 +1,13 @@
 package com.example.tomer.goshawk;
 
+import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,17 +17,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.CookieSyncManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class MainScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Connection {
 
     public static String whosHome;
-    public static boolean isActivate;
+    public static boolean protection;
+    public static String[] events;
+    public static boolean continueWait;
     Button activateButton;
+    private String[] eventID;
+    private boolean isCheckPermission = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +49,35 @@ public class MainScreenActivity extends AppCompatActivity
 
         if (extras != null) {
             whosHome = extras.getString("whosHome");
-            isActivate = extras.getBoolean("isActivate");
+            events = extras.getStringArray("EventsList");
+            protection = extras.getBoolean("Protection");
         } else {
             whosHome = getResources().getString(R.string.whosHomeDefault);
+        }
+        if (events == null) {
+            events = new String[0];
         }
 
         activateButton = (Button)findViewById(R.id.activateButtonID);
 
         activateButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                continueWait = true;
+                HttpGoshawkClient client = new HttpGoshawkClient(MainScreenActivity.this);
+
+                if (protection) {
+                    client.Disarm();
+                } else {
+                    client.Arm();
+                }
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.add(R.id.mainActivityID, new ChangeActivationFragment());
                 ft.addToBackStack(null);
                 ft.commit();
+
             }
         });
 /*
@@ -72,7 +96,7 @@ public class MainScreenActivity extends AppCompatActivity
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, whosHome, Snackbar.LENGTH_LONG)
+                Snackbar.make(view, whosHome + " is home.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -87,12 +111,13 @@ public class MainScreenActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         setParam();
+        InitEventIDs();
     }
 
     public void setParam() {
         String activationString;
 
-        if(isActivate) {
+        if (protection) {
             activationString = getResources().getString(R.string.systemActivate);
             activateButton.setBackgroundResource(R.drawable.activate_button);
         } else {
@@ -147,10 +172,26 @@ public class MainScreenActivity extends AppCompatActivity
 
         if (id == R.id.nav_camara) {
             // Handle the camera action
+            if (eventID.length != 0) {
+                Snapshot_Fragment snapshot_fragment = new Snapshot_Fragment();
+                snapshot_fragment.SetEvents(eventID);
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.add(R.id.mainActivityID, snapshot_fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            } else {
+                Toast.makeText(this, "No new events", Toast.LENGTH_LONG).show();
+            }
         } else if (id == R.id.nav_gallery) {
-
+            HttpGoshawkClient client = new HttpGoshawkClient(MainScreenActivity.this);
+            isCheckPermission = true;
+            client.GetPermission();
+            //Intent i = new Intent(MainScreenActivity.this, AddUserActivity.class);
+            //startActivity(i);
         } else if (id == R.id.nav_slideshow) {
-
+            Intent i = new Intent(MainScreenActivity.this, EventActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_settings) {
             Intent i = new Intent(MainScreenActivity.this, SettingsActivity.class);
             startActivity(i);
@@ -158,5 +199,73 @@ public class MainScreenActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void InitEventIDs() {
+        eventID = new String[events.length];
+        int eventCounter = 1;
+        for (int i = 0; i < events.length; i++) {
+            try {
+                JSONObject json = new JSONObject(events[i]);
+                String id = eventCounter + "," + json.getString("id");
+                eventCounter++;
+                eventID[i] = id;
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    @Override
+    public void Respond(String respond) {
+        //handle protection respond
+        try {
+            JSONObject jsonObj = new JSONObject(respond);
+            if (!isCheckPermission) {
+                String s = jsonObj.getString("Success");
+                if (s.contentEquals("1")) {
+                    protection = !protection;
+                }
+                continueWait = false;
+            } else {
+                String perm = jsonObj.getString("Permission");
+                if (perm.contains("Admin")) {
+                    Intent i = new Intent(MainScreenActivity.this, AddUserActivity.class);
+                    startActivity(i);
+                    return;
+                }
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            if (!isCheckPermission) {
+                continueWait = false;
+            } else {
+                Toast.makeText(getApplicationContext(), "Only admin can add user", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+    }
+
+
+    @Override
+    public ActionBarActivity GetActivity() {
+
+        return null;
+    }
+
+    @Override
+    public void SetCookieSyncManager() {
+        CookieSyncManager.createInstance(this);
+    }
+
+    @Override
+    public SharedPreferences GetSharedPreferences() {
+        return getSharedPreferences(getString(R.string.settingFile), Context.MODE_PRIVATE);
+    }
+
+    @Override
+    public String GetUrl() {
+        SharedPreferences settings = getSharedPreferences(getString(R.string.settingFile), Context.MODE_PRIVATE);
+        return settings.getString("serverIP", getString(R.string.DefaultServerIP));
     }
 }

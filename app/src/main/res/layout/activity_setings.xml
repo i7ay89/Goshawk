@@ -3,9 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context="com.example.tomer.goshawk.SettingsActivity"
-    android:background="@drawable/main_background">
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.tomer.goshawk.SettingsActivity">
 
     <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
         android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
@@ -14,21 +15,21 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
             <ImageView
+                android:id="@+id/goshawkIconID"
                 android:layout_width="50dp"
                 android:layout_height="fill_parent"
-                android:id="@+id/goshawkIconID"
-                android:src="@drawable/goshawk_icon"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/goshawk_icon" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/goshawkIconID"
+                android:layout_toRightOf="@+id/goshawkIconID"
                 android:text="@string/settings"
                 android:textColor="@android:color/white"
-                android:textSize="20dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/goshawkIconID"
-                android:layout_toEndOf="@+id/goshawkIconID"
-                android:layout_marginLeft="10dp"/>
+                android:textSize="20dp" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <RelativeLayout
@@ -42,18 +43,18 @@
             android:layout_marginTop="90dp"
             android:background="@drawable/sub_beckground">
             <LinearLayout
+                android:id="@+id/FirstSettingLayoutID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/FirstSettingLayoutID"
                 android:layout_margin="10dp"
-                android:onClick="layoutClick"
                 android:background="@drawable/layout_bg_selector"
+                android:onClick="layoutClick"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/notificationSwitch"
                     android:layout_alignBaseline="@+id/checkNotificationID"
+                    android:text="@string/notificationSwitch"
                     android:textColor="@android:color/white"
                     android:textSize="20dp"
                     android:textStyle="bold"/>
@@ -62,27 +63,28 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"></FrameLayout>
                 <CheckBox
+                    android:id="@+id/checkNotificationID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkNotificationID"
                     android:textColor="@android:color/white"
                     />
 
             </LinearLayout>
            <LinearLayout
+               android:id="@+id/SecondSettingLayout"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_below="@+id/FirstSettingLayoutID"
                android:layout_margin="10dp"
-               android:onClick="layoutClick"
-               android:background="@drawable/layout_bg_selector">
+               android:background="@drawable/layout_bg_selector"
+               android:onClick="layoutClick">
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="@string/snapshotSwitch"
+                   android:textColor="@android:color/white"
                    android:textSize="20dp"
                    android:textStyle="bold"
-                   android:textColor="@android:color/white"
                    >
                </TextView>
                <FrameLayout
@@ -90,23 +92,45 @@
                    android:layout_height="wrap_content"
                    android:layout_weight="1"></FrameLayout>
                <CheckBox
+                   android:id="@+id/checkSnapshotID"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:id="@+id/checkSnapshotID"
                    android:textColor="@android:color/white"/>
 
            </LinearLayout>
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/SecondSettingLayout"
+                android:layout_margin="10dp"
+                android:background="@drawable/layout_bg_selector"
+                android:onClick="layoutClick">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hello"
-            android:id="@+id/testTextID"
-            android:textColor="@android:color/white"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ServerIP"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold"></TextView>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></FrameLayout>
+
+                <EditText
+                    android:id="@+id/serverIPID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#44ffffff"
+                    android:text="@string/DefaultServerIP" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

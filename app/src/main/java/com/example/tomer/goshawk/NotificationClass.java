@@ -34,7 +34,7 @@ public class NotificationClass {
     public void notify(Intent intent) {
 
 
-        this.stackBuilder.addParentStack(SettingsActivity.class);  /// FIXME: 05/01/2016
+        this.stackBuilder.addParentStack(MainScreenActivity.class);  /// FIXME: 05/01/2016
         this.stackBuilder.addNextIntent(intent);
 
         PendingIntent resultPendingIntent = this.stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
