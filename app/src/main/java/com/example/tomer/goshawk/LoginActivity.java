@@ -77,6 +77,7 @@ public class LoginActivity extends ActionBarActivity implements Connection {
                 respond.contains("org.apache.http.conn.ConnectTimeoutException")) {
             Toast.makeText(this, "Offline", Toast.LENGTH_LONG).show();
             login();
+
             return;
         }
         try {
