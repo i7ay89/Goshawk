@@ -44,6 +44,7 @@ public class LoginActivity extends ActionBarActivity implements Connection {
                                     loginSuccess = true;
                                     loginState = "SYNC";
                                     client.Sync();
+                                    //client.SendMacAddress();
                                     //client.GetLastEvent(); //FIXME
                                 } else if (!loginSuccess) {
                                     loginSuccess = true;

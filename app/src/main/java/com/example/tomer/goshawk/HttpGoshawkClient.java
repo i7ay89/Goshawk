@@ -77,8 +77,8 @@ public class HttpGoshawkClient extends AsyncTask<String, String, String> {
         cookieManager = CookieManager.getInstance();
 
         HttpParams httpParameters = new BasicHttpParams();
-        HttpConnectionParams.setSoTimeout(httpParameters, 15000);
-        HttpConnectionParams.setConnectionTimeout(httpParameters, 15000);
+        HttpConnectionParams.setSoTimeout(httpParameters, 17000);
+        HttpConnectionParams.setConnectionTimeout(httpParameters, 17000);
         httpClient = new DefaultHttpClient(httpParameters);
     }
 

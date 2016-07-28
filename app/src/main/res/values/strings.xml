@@ -2,10 +2,10 @@
     <string name="app_name">Goshawk</string>
     <string name="action_settings">Settings</string>
     <string name="whosHomeDefault">nobody</string>
-    <string name="systemActivate">Arm</string>
-    <string name="systemDeactivate">Disarm</string>
+    <string name="systemActivate">Armed</string>
+    <string name="systemDeactivate">Disarmed</string>
     <string name="notificationSwitch">Notification</string>
-    <string name="snapshotSwitch">get snapshot</string>
+    <string name="snapshotSwitch">Get snapshot</string>
     <string name="ServerIP">Server IP:</string>
     <string name="DefaultServerIP">Please Enter Server IP:</string>
 

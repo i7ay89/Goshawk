@@ -248,7 +248,7 @@ public class AddUserActivity extends AppCompatActivity implements LoaderCallback
                 public void onAnimationEnd(Animator animation) {
                     mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
                     if (!keepRunning)
-                        Toast.makeText(getApplicationContext(), "Add user " + result, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "User added" + result, Toast.LENGTH_LONG).show();
                 }
             });
         } else {

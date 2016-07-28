@@ -68,8 +68,10 @@ public class Snapshot_Fragment extends Fragment implements Connection {
             return;
 
         } else {
-            eventID = eventsList[counter].substring(2);
-            eventCounter = eventsList[counter].substring(0, 1);
+            eventID = eventsList[counter];
+            int index = eventID.indexOf(",");
+            eventID = eventID.substring(index + 1);
+            eventCounter = eventsList[counter].substring(0, index);
         }
         if (eventsList[counter] == "curropt") {
             //handle

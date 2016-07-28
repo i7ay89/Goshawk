@@ -72,12 +72,13 @@ public class EventActivity extends AppCompatActivity implements Connection {
                     min = "0" + min;
                 }
                 String counter = "Event number: " + eventCounter + "\n\n";
-                String timeFormat = "Time stemp:\n" + time.getString("hour") + ":" + min + ":" + time.getString("second")
+                String event_id = "Event ID:\n" + json.getString("id") + "\n\n";
+                String timeFormat = "Timestamp:\n" + time.getString("hour") + ":" + min + ":" + time.getString("second")
                         + "\t\t" + time.getString("day") + "." + time.getString("month") + "." + time.getString("year") + "\n\n";
                 String severity = "Severity:\n" + json.getString("severity") + "\n\n";
                 String type = "Type:\n" + json.getString("type") + "\n\n";
                 String description = "Description:\n" + json.getString("description") + "\n\n";
-                fullText += counter + timeFormat + severity + type + description + "\n\n";
+                fullText += counter + event_id + timeFormat + severity + type + description + "\n\n";
                 fullText += "-------------------\n\n";
             } catch (Exception e) {
                 eventID[i] = "corrupt";
